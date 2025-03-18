@@ -1,4 +1,4 @@
-Because of the number of images of the data set, it was not posible to push it to this repository, here is the dataset: https://www.kaggle.com/datasets/ismailnasri20/driver-drowsiness-dataset-ddd
+Due to the size of the dataset, it was not possible to push it to this repository. Here is the dataset: https://www.kaggle.com/datasets/ismailnasri20/driver-drowsiness-dataset-ddd
 
 📌 Required Libraries:
 OpenCV (cv2) → For video capture and processing
