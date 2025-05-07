@@ -2,13 +2,20 @@ import cv2
 import numpy as np
 import tensorflow as tf
 import time
-from tensorflow.keras.models import load_model
-from playsound import playsound
+import pygame
 import threading
+from tensorflow.keras.models import load_model
+
+# Inicializar pygame mixer para sonido
+pygame.mixer.init()
+ALERT_SOUND_PATH = "alerta.mp3"
 
 # Función para reproducir alerta sonora en segundo plano
 def play_alert_sound():
-    threading.Thread(target=playsound, args=("alerta.mp3",), daemon=True).start()
+    def _play():
+        pygame.mixer.music.load(ALERT_SOUND_PATH)
+        pygame.mixer.music.play()
+    threading.Thread(target=_play, daemon=True).start()
 
 # Cargar los modelos
 drowsy_model = load_model("mobilenet_drowsiness_best.h5")
@@ -28,9 +35,14 @@ YAWN_INPUT_SIZE = (320, 320)
 # Captura de video
 cap = cv2.VideoCapture(0)
 
+# Verificar si la cámara se abrió correctamente
+if not cap.isOpened():
+    print("❌ Error: No se pudo acceder a la cámara.")
+    exit()
+
 # Variables para la detección de somnolencia
-drowsy_start_time = None  # Momento en que se detectó somnolencia por primera vez
-alert_triggered = False  # Estado de la alerta
+drowsy_start_time = None
+alert_triggered = False
 
 while True:
     ret, frame = cap.read()
@@ -42,16 +54,15 @@ while True:
 
     if len(faces) > 0:
         x, y, w, h = faces[0]
-
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
         face_roi = frame[y:y + h, x:x + w]
 
-        # Redimensionar para modelo de somnolencia
+        # Redimensionar para el modelo de somnolencia
         face_resized_drowsy = cv2.resize(face_roi, DROWSY_INPUT_SIZE)
         face_input_drowsy = np.expand_dims(face_resized_drowsy, axis=0) / 255.0
 
-        # Redimensionar para modelo de bostezo
+        # Redimensionar para el modelo de bostezo
         face_resized_yawn = cv2.resize(face_roi, YAWN_INPUT_SIZE)
         face_input_yawn = np.expand_dims(face_resized_yawn, axis=0) / 255.0
 
@@ -79,7 +90,6 @@ while True:
         else:
             drowsy_start_time = None
             alert_triggered = False
-
     else:
         cv2.putText(frame, "No se detecta rostro", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
@@ -90,4 +100,3 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
-
