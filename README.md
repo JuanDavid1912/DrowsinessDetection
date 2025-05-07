@@ -1,6 +1,13 @@
 ⚙️ Requisitos del Proyecto
 Este proyecto está desarrollado en Python 3.10. Se recomienda usar exactamente esta versión para asegurar la compatibilidad con todas las librerías utilizadas, especialmente con TensorFlow.
 
+para usar en RasberryPi: 
+
+sudo apt update
+sudo apt install python3-pip python3-opencv libatlas-base-dev -y
+
+
+
 ✅ Versión recomendada de Python
 Python 3.10
 
@@ -9,13 +16,8 @@ Antes de ejecutar el proyecto, asegúrate de tener instaladas las siguientes lib
 
 terminal:
 
-pip install -r requirements.txt
-O bien, instalarlas una por una:
+pip3 install -r requirements.txt
 
-terminal:
 
-pip install opencv-python
-pip install numpy
-pip install tensorflow==2.15.0
-pip install playsound
-Nota: Si estás en Linux y playsound no funciona correctamente, puedes considerar usar una alternativa como pygame o simpleaudio.
+⚠️ Nota importante en Raspberry Pi: En algunos casos, opencv-python puede fallar por falta de dependencias del sistema. Si ocurre eso, instala:
+sudo apt install libgl1 libglib2.0-0
