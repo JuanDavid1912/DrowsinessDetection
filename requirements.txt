@@ -1,4 +1,4 @@
-opencv-python
-numpy
 tensorflow==2.15.0
-playsound
+opencv-python==4.8.0.76
+pygame==2.5.2
+numpy>=1.22
