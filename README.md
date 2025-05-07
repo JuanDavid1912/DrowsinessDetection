@@ -7,11 +7,13 @@ Python 3.10
 📦 Librerías necesarias
 Antes de ejecutar el proyecto, asegúrate de tener instaladas las siguientes librerías. Puedes instalarlas todas ejecutando:
 
-bash
+terminal:
+
 pip install -r requirements.txt
 O bien, instalarlas una por una:
 
-bash
+terminal:
+
 pip install opencv-python
 pip install numpy
 pip install tensorflow==2.15.0
