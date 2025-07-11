@@ -1,13 +1,6 @@
 ⚙️ Requisitos del Proyecto
 Este proyecto está desarrollado en Python 3.10. Se recomienda usar exactamente esta versión para asegurar la compatibilidad con todas las librerías utilizadas, especialmente con TensorFlow.
 
-para usar en RasberryPi: 
-
-sudo apt update
-sudo apt install python3-pip python3-opencv libatlas-base-dev -y
-
-
-
 ✅ Versión recomendada de Python
 Python 3.10
 
