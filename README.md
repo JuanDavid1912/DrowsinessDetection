@@ -11,6 +11,3 @@ terminal:
 
 pip3 install -r requirements.txt
 
-
-⚠️ Nota importante en Raspberry Pi: En algunos casos, opencv-python puede fallar por falta de dependencias del sistema. Si ocurre eso, instala:
-sudo apt install libgl1 libglib2.0-0
