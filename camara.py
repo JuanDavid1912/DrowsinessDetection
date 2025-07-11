@@ -5,6 +5,7 @@ import time
 import pygame
 import threading
 from tensorflow.keras.models import load_model
+from picamera2 import Picamera2, Preview #
 
 # Inicializar pygame mixer para sonido
 pygame.mixer.init()
@@ -33,22 +34,23 @@ DROWSY_INPUT_SIZE = (224, 224)
 YAWN_INPUT_SIZE = (320, 320)
 
 # Captura de video
-cap = cv2.VideoCapture(0)
+picam2 = Picamera2()
 
-# Verificar si la cámara se abrió correctamente
-if not cap.isOpened():
-    print("❌ Error: No se pudo acceder a la cámara.")
-    exit()
+# Iniciar la camara
+picam2.start()
+print("Camara iniciada correctamente.")
+
 
 # Variables para la detección de somnolencia
 drowsy_start_time = None
 alert_triggered = False
 
 while True:
-    ret, frame = cap.read()
-    if not ret:
-        break
+    
+    frame = picam2.capture_array()
 
+    # El color de picamera2 es RGB, OpenCv usa BGR. Es necesario convertirlo
+    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(100, 100))
 
@@ -98,5 +100,5 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-cap.release()
+picam2.stop()
 cv2.destroyAllWindows()
